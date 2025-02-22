@@ -22,7 +22,7 @@ func main() {
 	router := gin.Default()
 	// 💡 Thêm middleware CORS
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000"}, // Cho phép frontend truy cập
+		AllowOrigins:     []string{"https://tubular-starburst-5b0268.netlify.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type"},
 		AllowCredentials: true,
