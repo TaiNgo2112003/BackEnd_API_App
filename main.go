@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gin-contrib/cors" // Thêm thư viện CORS
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,14 +20,15 @@ var idCounter = 1
 
 func main() {
 	router := gin.Default()
-	// 💡 Thêm middleware CORS
+	// 💡  middleware CORS
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"https://tubular-starburst-5b0268.netlify.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type"},
 		AllowCredentials: true,
 	}))
-	// Tạo công việc mới
+
+	//Thêm
 	router.POST("/tasks", func(c *gin.Context) {
 		var newTask Task
 		if err := c.ShouldBindJSON(&newTask); err != nil {
@@ -40,12 +41,12 @@ func main() {
 		c.JSON(http.StatusCreated, newTask)
 	})
 
-	// Lấy danh sách công việc
+	//Lấy
 	router.GET("/tasks", func(c *gin.Context) {
 		c.JSON(http.StatusOK, tasks)
 	})
 
-	// Cập nhật trạng thái hoàn thành
+	//Sửa
 	router.PUT("/tasks/:id", func(c *gin.Context) {
 		var updateData struct {
 			Title     string `json:"title"`
@@ -68,12 +69,12 @@ func main() {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Công việc không tồn tại"})
 	})
 
-	// Xóa công việc
+	//Xóa
 	router.DELETE("/tasks/:id", func(c *gin.Context) {
 		idParam := c.Param("id")
 		for i, task := range tasks {
 			if fmt.Sprintf("%d", task.ID) == idParam {
-				tasks = append(tasks[:i], tasks[i+1:]...) // Xóa task khỏi slice
+				tasks = append(tasks[:i], tasks[i+1:]...)
 				c.JSON(http.StatusOK, gin.H{"message": "Xóa thành công"})
 				return
 			}
